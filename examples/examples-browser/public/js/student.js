@@ -60,7 +60,22 @@ function loadStudentImages()
 		type: 'GET',
 		success: function(response)
 		{
+			var imgObjects = JSON.parse(response),
+				$container = $('.ref-images-container'),
+				$ul = $('<ul>');
 
+			$container.empty();
+			imgObjects.forEach(function(imgObject)
+			{
+				var li = $('<li>'),
+					textDiv = $('<div class="name">' + imgObject.name + '</div>');
+
+				li.append(textDiv);
+				li.append($("<img class='imgRef' src='" + imgObject.path + "'>"));
+				$ul.append(li);
+			});
+
+			$container.append($ul);
 		},
 		error: function()
 		{

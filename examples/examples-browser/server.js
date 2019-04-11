@@ -64,6 +64,13 @@ function getImageList()
 	let imgFolderPath = path.join(viewsDir, 'images/studentphotos');
 	let dirList = fs.readdirSync(imgFolderPath);
 
+	return dirList.map(function(imgFileName){
+		return {
+			name:imgFileName.split('.')[0],
+			path: 'images/studentphotos/'+imgFileName
+		}
+	});
+
 	return dirList;
 }
 
