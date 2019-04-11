@@ -41,16 +41,12 @@ async function run()
 	await changeFaceDetector(SSD_MOBILENETV1)
 	changeInputSize(512)
 
-	// try to access users webcam and stream the images
-	// to the video element
-	const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
-	const videoEl = $('#inputVideo').get(0)
-	videoEl.srcObject = stream
-
 	await faceapi.loadFaceLandmarkModel('/');
 	await faceapi.loadFaceRecognitionModel('/');
 
 	await loadFaceMatcher();
+
+	$('.open-camera').on('click', function() { openCamera(); });
 }
 
 function loadStudentImages()
@@ -82,6 +78,15 @@ function loadStudentImages()
 
 		}
 	})
+}
+
+async function openCamera()
+{
+	// try to access users webcam and stream the images
+	// to the video element
+	const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
+	const videoEl = $('#inputVideo').get(0)
+	videoEl.srcObject = stream
 }
 
 async function asyncForEach(array, callback)
