@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="face-api.js"></script>
+	<script src="js/tf.js"></script>
+	<script src="js/commons.js"></script>
+	<script src="js/drawing.js"></script>
+	<script src="js/faceDetectionControls.js"></script>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet/less" type="text/css" href="student_styles.less">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.8.1/less.min.js"></script>
+	<style>
+		.booth {
+			position: absolute;
+			border: 1px solid black;
+			right: 50px;
+			top: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="center-content page-container">
+		<div style="position: relative" class="margin">
+			<video style="width:400px;height:300px" onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
+			<canvas style="width:400px;height:300px" id="overlay" />
+		</div>
+		<div class="booth">
+			<canvas id='canvasScreenshot' width='400' height='300' style="left:-1000px;top:-1000px;position:absolute"></canvas>
+			<img id='imgScreenshot' style="left:-1000px;top:-1000px;position:absolute">
+			<div class="ref-images-container">
+				<ul>
+					<li>
+						<div class="name">Hugh</div><img class='imgRef' src='Images/StudentPhotos/hugh.png'>
+					</li>
+					<li>
+						<div class="name">Jackie</div><img class='imgRef' src='StudentPhotos/jackie.png'>
+					</li>
+					<li>
+						<div class="name">Tony</div><img class='imgRef' src='StudentPhotos/tony.png'>
+					</li>
+				</ul>
+			</div>
+		</div>
+</body>
+
+<script src="js/student.js"></script>
+</body>
+
+</html>
