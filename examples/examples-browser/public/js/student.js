@@ -26,7 +26,7 @@ async function onPlay()
 
 	if (result)
 	{
-		drawDetections(videoEl, $('#overlay').get(0), [result])
+		drawDetections(videoEl, $(".camera-canvas")[0], [result])
 	}
 
 	setTimeout(() => onPlay())
@@ -159,8 +159,7 @@ async function compare()
 
 async function updateReferenceImageResults()
 {
-	var canvas = document.getElementById('overlay'),
-		video = $('#inputVideo').get(0),
+	var canvas = $(".camera-canvas")[0],
 		img = $('#imgScreenshot').get(0);
 
 
@@ -173,7 +172,7 @@ async function updateReferenceImageResults()
 			detection.box,
 			// match each face descriptor to the reference descriptor
 			// with lowest euclidean distance and display the result as text
-			faceMatcher.findBestMatch(descriptor).toString()
+			faceMatcher.findBestMatch(descriptor).label
 		)
 	)
 

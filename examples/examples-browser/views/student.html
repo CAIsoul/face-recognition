@@ -9,34 +9,17 @@
 	<script src="js/faceDetectionControls.js"></script>
 	<link rel="stylesheet" href="styles.css">
 	<link rel="stylesheet/less" type="text/css" href="student_styles.less">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.8.1/less.min.js"></script>
 </head>
 
 <body>
 	<div class="center-content page-container">
 		<div class="face-recognition-layer">
-			<div class="camera-container">
-				<video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
-				<canvas id="overlay"></canvas>
-			</div>
 			<div class="booth-container">
 				<canvas id='canvasScreenshot' width=400 height=300></canvas>
 				<img id='imgScreenshot'>
 				<div class="ref-images-container">
-					<ul>
-						<li>
-							<div class="name">Hugh</div><img class='imgRef' src='Images/StudentPhotos/hugh.png'>
-						</li>
-						<li>
-							<div class="name">Jackie</div><img class='imgRef' src='StudentPhotos/jackie.png'>
-						</li>
-						<li>
-							<div class="name">Tony</div><img class='imgRef' src='StudentPhotos/tony.png'>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>
@@ -49,7 +32,11 @@
 				<div class="login-input">
 					<div class="login-input-header"></div>
 					<div class="login-input-area">
-
+						<button class="open-camera">Open Camera</button>
+						<div class="video-container">
+							<video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
+							<canvas class="camera-canvas"></canvas>
+						</div>
 					</div>
 				</div>
 			</div>
