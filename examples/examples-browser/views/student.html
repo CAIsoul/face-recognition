@@ -31,15 +31,16 @@
 				<div class="login-logo"></div>
 				<div class="login-input">
 					<div class="login-input-header">
-						<span>Login</span>
+						<div class="login-tab user-name-login active">User Name Login</div>
+						<div class="login-tab face-recognition-login">Face Recognition Login</div>
 					</div>
 					<div class="login-input-area">
-						<button class="open-camera">Open Camera</button>
-						<div class="video-container">
+						<button class="open-camera" style="display:none">Open Camera</button>
+						<div class="video-container" style="display:none;">
 							<video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
 							<canvas class="camera-canvas"></canvas>
 						</div>
-						<div class="classic-login" style="display:none;">
+						<div class="classic-login">
 							<div class="input-group">
 								<span class="field-name">Client ID</span>
 								<input type="text" />
@@ -59,6 +60,25 @@
 							<div class="login-button">Login</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-container" style="display:none;">
+		<div class="modal-backdrop"></div>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" onfocus="blur()">x</button>
+					<h4 class="modal-title">Confirmation Message</h4>
+				</div>
+				<div class="modal-body">
+					<div class="bootbox-body">
+						<pre class="titleNotify">Hello XXX</pre>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button data-bb-handler="yes" type="button" class="btn btn-primary btn-sm btn-primary-black" onclick="hideModal()"><p data-index="0">OK</p></button>
 				</div>
 			</div>
 		</div>

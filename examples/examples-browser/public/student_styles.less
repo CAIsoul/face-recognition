@@ -70,22 +70,41 @@ html, body {
 
 			.login-input-header {
 				font-size: 14px;
-				padding: 10px 15px;
+				height: 37px;
 				border-bottom: 1px solid transparent;
 				border-top-right-radius: 0;
 				border-top-left-radius: 0;
 				background-color: #6b6b6b;
 				color: #fff;
+				display: flex;
+
+				.user-name-login,
+				.face-recognition-login {
+					width: 50%;
+					text-align: center;
+					line-height: 37px;
+					height: 100%;
+
+					&.active {
+						background-color: #4a4a4a;
+					}
+
+					&:hover {
+						background-color: #4a4a4a;
+						cursor: pointer;
+					}
+				}
 			}
 
 			.login-input-area {
 				flex: 1;
 				display: flex;
 				position: relative;
+				padding: 15px;
 
 				.open-camera {
 					position: absolute;
-					top: 0;
+					top: -100px;
 				}
 
 				.video-container {
@@ -98,7 +117,11 @@ html, body {
 						height: 100%;
 					}
 				}
-				
+
+				.classic-login {
+					width: 100%;
+					margin-top: 23px;
+				}
 
 				.input-group {
 					height: 61px;
@@ -116,24 +139,24 @@ html, body {
 					input {
 						width: 100%;
 						box-shadow: none;
-					} 
+					}
 				}
 
 				.checkbox-group {
 					float: left;
+					font-size: 13px;
 				}
 
 				.forget-password {
 					float: right;
+					font-size: 13px;
 				}
-
-				
 			}
 
 			.red-link {
 				color: #D74B3C;
 				cursor: pointer;
-				
+
 				&:hover {
 					text-decoration: underline;
 				}
@@ -189,6 +212,113 @@ html, body {
 			position: absolute;
 			left: -1000px;
 			top: -1000px;
+		}
+	}
+}
+
+.modal-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 27500;
+
+	.modal-backdrop {
+		background-color: black;
+		opacity: .5;
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+	}
+
+	.modal-dialog {
+		height: 146px;
+		width: 600px;
+		top: 200px;
+		left: 200px;
+		position: absolute;
+
+		.modal-header {
+			color: #fff;
+			background-color: #333;
+			border-color: #ddd;
+
+			.modal-title {
+				padding: 10px 15px;
+				font-size: 14px;
+				margin: 0;
+			}
+
+			.close {
+				color: #fff;
+				margin-right: 10px;
+				margin-top: 8px;
+				opacity: 1;
+				float: right;
+				font-size: 21px;
+				font-weight: bold;
+				line-height: 1;
+				text-shadow: 0 1px 0 #fff;
+				background-color: transparent;
+				border: 0;
+				font-family: Arial;
+			}
+		}
+
+		.modal-content {
+			background-color: white;
+			position: relative;
+			-moz-box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+			-webkit-box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+			box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+
+			.modal-body {
+				position: relative;
+				padding: 15px;
+
+				.titleNotify {
+					background: none;
+					color: #666666;
+					font-size: 12px;
+					border: 0;
+					padding: 0;
+					font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+					word-break: normal;
+					white-space: pre-wrap;
+					margin: 0 0 10px;
+					line-height: 1.42857143;
+					border-radius: 4px;
+				}
+			}
+
+			.modal-footer {
+				text-align: left;
+				background-color: #f2f2f2;
+				border-top: 1px solid #C4C4C4;
+				padding-top: 9px;
+				padding-bottom: 10px;
+				padding-left: 15px;
+				padding-right: 15px;
+
+				.btn {
+					color: #ffffff;
+					background-color: #444444;
+					border-color: #333333;
+					font-size: 12px;
+					line-height: 1.5;
+
+					&:hover {
+						cursor: pointer;
+					}
+
+					p {
+						margin: 0;
+					}
+				}
+			}
 		}
 	}
 }

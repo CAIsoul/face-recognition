@@ -47,6 +47,31 @@ async function run()
 	await loadFaceMatcher();
 
 	$('.open-camera').on('click', function() { openCamera(); });
+	initLoginOptions();
+}
+
+function initLoginOptions()
+{
+	$(".login-tab").on("click", function(e)
+	{
+		var $target = $(e.target);
+		if ($target.hasClass("active")) return;
+
+		$(".login-tab").removeClass("active");
+		$target.addClass("active");
+		if ($target.hasClass("face-recognition-login"))
+		{
+			$(".classic-login").hide();
+			$(".video-container").show();
+			openCamera();
+		}
+		else
+		{
+			$(".classic-login").show();
+			$(".video-container").hide();
+			closeCamera();
+		}
+	});
 }
 
 function loadStudentImages()
@@ -80,13 +105,22 @@ function loadStudentImages()
 	})
 }
 
+var mediaStreamTrack;
 async function openCamera()
 {
 	// try to access users webcam and stream the images
 	// to the video element
-	const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
-	const videoEl = $('#inputVideo').get(0)
-	videoEl.srcObject = stream
+	const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+	const videoEl = $('#inputVideo')[0];
+	videoEl.srcObject = stream;
+	mediaStreamTrack = stream.getTracks()[0];
+}
+
+function closeCamera()
+{
+	if (!mediaStreamTrack) return;
+
+	mediaStreamTrack.stop();
 }
 
 async function asyncForEach(array, callback)
@@ -157,6 +191,7 @@ async function compare()
 	await updateReferenceImageResults();
 }
 
+var finishRecognition;
 async function updateReferenceImageResults()
 {
 	var canvas = $(".camera-canvas")[0],
@@ -176,5 +211,40 @@ async function updateReferenceImageResults()
 		)
 	)
 
-	faceapi.drawDetection(canvas, boxesWithText);
+	//faceapi.drawDetection(canvas, boxesWithText);
+	if (!boxesWithText ||
+		!boxesWithText[0] ||
+		!boxesWithText[0]._text ||
+		boxesWithText[0]._text === "unknown")
+		return;
+
+	closeCamera();
+	if (!finishRecognition)
+	{
+		showModal("Hello " + boxesWithText[0]._text);
+		finishRecognition = true;
+	}
+}
+
+function showModal(text)
+{
+	var $modalDialog = $(".modal-dialog"),
+		dialogWidth = $modalDialog.width(),
+		dialogHeight = $modalDialog.height(),
+		screenWidth = window.screen.width,
+		screenHeight = window.screen.height;
+
+	var top = screenHeight / 2 - dialogHeight / 2;
+	var left = screenWidth / 2 - dialogWidth / 2;
+	$modalDialog.css("top", top);
+	$modalDialog.css("left", left);
+
+	$(".titleNotify").text(text);
+
+	$(".modal-container").show();
+}
+
+function hideModal()
+{
+	$(".modal-container").hide();
 }
