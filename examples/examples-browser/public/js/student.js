@@ -36,6 +36,8 @@ async function onPlay()
 var faceMatcher;
 async function run()
 {
+	showLoadingIndicator("Loading face recognition Models...");
+
 	loadStudentImages();
 	// load face detection model
 	await changeFaceDetector(SSD_MOBILENETV1)
@@ -48,6 +50,8 @@ async function run()
 
 	$('.open-camera').on('click', function() { openCamera(); });
 	initLoginOptions();
+
+	hideLoadingIndicator();
 }
 
 function initLoginOptions()
@@ -138,7 +142,7 @@ async function loadFaceMatcher()
 		descriptors = [],
 		nameArray = [];
 
-	if(images.length==0) return;
+	if (images.length == 0) return;
 
 	await asyncForEach(images, async (image) =>
 	{
@@ -199,7 +203,7 @@ async function updateReferenceImageResults()
 	var canvas = $(".camera-canvas")[0],
 		img = $('#imgScreenshot').get(0);
 
-	if(faceMatcher == null) return;
+	if (faceMatcher == null) return;
 
 	// resize detection and landmarks in case displayed image is smaller than
 	// original size
@@ -250,4 +254,16 @@ function showModal(text)
 function hideModal()
 {
 	$(".modal-container").hide();
+}
+
+function showLoadingIndicator(text)
+{
+	var loadingText = text || "Loading...";
+	$("#loadingindicator .subtitle-text").text(loadingText);
+	$("#loadingindicator").show();
+}
+
+function hideLoadingIndicator()
+{
+	$("#loadingindicator").hide();
 }
