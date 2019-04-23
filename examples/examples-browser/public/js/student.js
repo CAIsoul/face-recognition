@@ -32,8 +32,8 @@ async function onPlay()
 	setTimeout(() => onPlay())
 }
 
-//var faceMathers=[];
-var faceMather;
+//var faceMatcher=[];
+var faceMatcher;
 async function run()
 {
 	loadStudentImages();
@@ -199,7 +199,7 @@ async function updateReferenceImageResults()
 	var canvas = $(".camera-canvas")[0],
 		img = $('#imgScreenshot').get(0);
 
-	if(faceMather == null) return;
+	if(faceMatcher == null) return;
 
 	// resize detection and landmarks in case displayed image is smaller than
 	// original size
