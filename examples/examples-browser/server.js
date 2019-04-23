@@ -26,7 +26,7 @@ fs.stat(__dirname + '/public/certificates/privatekey.pem', function(err, stat)
 		var privateKey = fs.readFileSync(__dirname + '/public/certificates/privatekey.pem').toString(),
 			certificate = fs.readFileSync(__dirname + '/public/certificates/certificate.pem').toString();
 
-		credentials = crypto.createCredentials({ key: privateKey, cert: certificate });
+		credentials = {key: privateKey, cert: certificate};
 
 		startHttps();
 	}
@@ -114,14 +114,14 @@ function startHttp()
 {
 	var server = http.createServer(app);
 	server.listen(3000);
-	console.log("111");
+	console.log("http server start, listening on port 3000!");
 }
 
 function startHttps()
 {
 	var httpsServer = https.createServer(credentials, app);
 	httpsServer.listen(8443);
-	console.log("222");
+	console.log("https server start, listening on port 8443!");
 }
 
 function getImageList()

@@ -29,7 +29,7 @@ async function onPlay()
 		drawDetections(videoEl, $(".camera-canvas")[0], [result])
 	}
 
-	setTimeout(() => onPlay())
+	setTimeout(() => onPlay(), 1000)
 }
 
 //var faceMatcher=[];
