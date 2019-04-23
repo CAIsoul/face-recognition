@@ -1,9 +1,12 @@
-const express = require('express')
-const path = require('path')
-const { get } = require('request')
-const fs = require("fs");
-const multer = require("multer");
-const app = express()
+const express = require('express'),
+	path = require('path'),
+	{ get } = require('request'),
+	fs = require("fs"),
+	multer = require("multer"),
+	app = express(),
+	crypto = require('crypto'),
+	http = require("http"),
+	https = require("https");
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -14,6 +17,24 @@ app.use(express.static(path.join(__dirname, './public')))
 app.use(express.static(path.join(__dirname, '../media')))
 app.use(express.static(path.join(__dirname, '../../weights')))
 app.use(express.static(path.join(__dirname, '../../dist')))
+
+var credentials = null;
+fs.stat(__dirname + '/public/certificates/privatekey.pem', function(err, stat)
+{
+	if (stat && stat.isFile())
+	{
+		var privateKey = fs.readFileSync(__dirname + '/public/certificates/privatekey.pem').toString(),
+			certificate = fs.readFileSync(__dirname + '/public/certificates/certificate.pem').toString();
+
+		credentials = crypto.createCredentials({ key: privateKey, cert: certificate });
+
+		startHttps();
+	}
+	else
+	{
+		startHttp();
+	}
+});
 
 app.get('/', (req, res) => res.redirect('/student'))
 app.get('/student', (req, res) => res.sendFile(path.join(viewsDir, 'student.html')))
@@ -60,22 +81,24 @@ app.get('/getImageList', (req, res) =>
 
 // 通过 filename 属性定制
 var storage = multer.diskStorage({
-    destination: __dirname,
-    filename: function (req, file, cb) {
-        // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
-		cb(null, req.body.filename+'.png');  
-    }
+	destination: __dirname,
+	filename: function(req, file, cb)
+	{
+		// 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
+		cb(null, req.body.filename + '.png');
+	}
 });
 
 // 通过 storage 选项来对 上传行为 进行定制化
 var upload = multer({ storage: storage })
 
-app.post('/image', upload.single('file'), function(req, res, next){
+app.post('/image', upload.single('file'), function(req, res, next)
+{
 	var file = req.file;
 
-    console.log('文件类型：%s', file.mimetype);
-    console.log('原始文件名：%s', file.originalname);
-    console.log('文件大小：%s', file.size);
+	console.log('文件类型：%s', file.mimetype);
+	console.log('原始文件名：%s', file.originalname);
+	console.log('文件大小：%s', file.size);
 	console.log('文件保存路径：%s', file.path);
 	res.send('a');
 });
@@ -85,17 +108,32 @@ app.post('/image', upload.single('file'), function(req, res, next){
 //     res.send(form);
 // });
 
-app.listen(3000, () => console.log('Listening on port 3000!'));
+//app.listen(3000, () => console.log('Listening on port 3000!'));
+
+function startHttp()
+{
+	var server = http.createServer(app);
+	server.listen(3000);
+	console.log("111");
+}
+
+function startHttps()
+{
+	var httpsServer = https.createServer(credentials, app);
+	httpsServer.listen(8443);
+	console.log("222");
+}
 
 function getImageList()
 {
 	let imgFolderPath = path.join(viewsDir, 'images/studentphotos');
 	let dirList = fs.readdirSync(imgFolderPath);
 
-	return dirList.map(function(imgFileName){
+	return dirList.map(function(imgFileName)
+	{
 		return {
-			name:imgFileName.split('.')[0],
-			path: 'images/studentphotos/'+imgFileName
+			name: imgFileName.split('.')[0],
+			path: 'images/studentphotos/' + imgFileName
 		}
 	});
 }
