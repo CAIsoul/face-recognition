@@ -138,6 +138,8 @@ async function loadFaceMatcher()
 		descriptors = [],
 		nameArray = [];
 
+	if(images.length==0) return;
+
 	await asyncForEach(images, async (image) =>
 	{
 		var descriptor = await faceapi
@@ -197,6 +199,7 @@ async function updateReferenceImageResults()
 	var canvas = $(".camera-canvas")[0],
 		img = $('#imgScreenshot').get(0);
 
+	if(faceMather == null) return;
 
 	// resize detection and landmarks in case displayed image is smaller than
 	// original size

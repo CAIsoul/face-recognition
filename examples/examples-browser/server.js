@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const { get } = require('request')
 const fs = require("fs");
-
+const multer = require("multer");
 const app = express()
 
 app.use(express.json())
@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, '../../dist')))
 
 app.get('/', (req, res) => res.redirect('/student'))
 app.get('/student', (req, res) => res.sendFile(path.join(viewsDir, 'student.html')))
+app.get('/upload', (req, res) => res.sendFile(path.join(viewsDir, 'upload.html')))
 app.get('/face_detection', (req, res) => res.sendFile(path.join(viewsDir, 'faceDetection.html')))
 app.get('/face_landmark_detection', (req, res) => res.sendFile(path.join(viewsDir, 'faceLandmarkDetection.html')))
 app.get('/face_expression_recognition', (req, res) => res.sendFile(path.join(viewsDir, 'faceExpressionRecognition.html')))
@@ -55,9 +56,36 @@ app.get('/getImageList', (req, res) =>
 {
 	let imgList = getImageList();
 	res.send(JSON.stringify(imgList));
-})
+});
 
-app.listen(3000, () => console.log('Listening on port 3000!'))
+// 通过 filename 属性定制
+var storage = multer.diskStorage({
+    destination: __dirname,
+    filename: function (req, file, cb) {
+        // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
+		cb(null, req.body.filename+'.png');  
+    }
+});
+
+// 通过 storage 选项来对 上传行为 进行定制化
+var upload = multer({ storage: storage })
+
+app.post('/image', upload.single('file'), function(req, res, next){
+	var file = req.file;
+
+    console.log('文件类型：%s', file.mimetype);
+    console.log('原始文件名：%s', file.originalname);
+    console.log('文件大小：%s', file.size);
+	console.log('文件保存路径：%s', file.path);
+	res.send('a');
+});
+
+// app.get('/form', function(req, res, next){
+//     var form = fs.readFileSync('./form.html', {encoding: 'utf8'});
+//     res.send(form);
+// });
+
+app.listen(3000, () => console.log('Listening on port 3000!'));
 
 function getImageList()
 {
@@ -70,8 +98,6 @@ function getImageList()
 			path: 'images/studentphotos/'+imgFileName
 		}
 	});
-
-	return dirList;
 }
 
 //function request(url, returnBuffer = true, timeout = 10000)
