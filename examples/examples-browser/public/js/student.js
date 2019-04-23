@@ -228,14 +228,15 @@ async function updateReferenceImageResults()
 	closeCamera();
 	if (!finishRecognition)
 	{
-		showModal("Hello " + boxesWithText[0]._text);
+		showVerificationResultModal("Hello " + boxesWithText[0]._text);
 		finishRecognition = true;
 	}
 }
 
-function showModal(text)
+function showVerificationResultModal(text)
 {
-	var $modalDialog = $(".modal-dialog"),
+	var $modalContainer = $(".modal-container"),
+		$modalDialog = $modalContainer.find(".modal-dialog"),
 		dialogWidth = $modalDialog.width(),
 		dialogHeight = $modalDialog.height(),
 		screenWidth = window.screen.width,
@@ -246,14 +247,66 @@ function showModal(text)
 	$modalDialog.css("top", top);
 	$modalDialog.css("left", left);
 
-	$(".titleNotify").text(text);
+	$modalDialog.find(".modal-title").text("Confirmation Message");
+	$modalDialog.find(".modal-body").html(
+		`<div class="bootbox-body">
+			<pre class="titleNotify">${text}</pre>
+		</div>`);
 
-	$(".modal-container").show();
+	$modalContainer.show();
 }
 
 function hideModal()
 {
 	$(".modal-container").hide();
+}
+
+function openSettingModal()
+{
+	var $modalContainer = $(".modal-container"),
+		createUserItem = function(obj)
+		{
+			return `
+				<div class="user-item">
+					<img class="user-pic" src="${obj.path}">
+					<span class="user-name">${obj.name}</span>
+				</div>`;
+		};
+
+	$modalContainer.find(".modal-title").text("Manage Users");
+	$modalContainer.find(".modal-body").html(`
+		<div class="user-container"><div>
+	`);
+
+	getUseImageList().then(function(userList)
+	{
+		userList.map(function(user)
+		{
+			$modalContainer.find(".user-container").append(createUserItem(user));
+		});
+
+		$modalContainer.show();
+	});
+}
+
+function getUseImageList()
+{
+	return new Promise(function(resolve, reject)
+	{
+		$.ajax({
+			url: '/getImageList',
+			type: 'GET',
+			success: function(response)
+			{
+				var imgObjects = JSON.parse(response);
+				resolve(imgObjects);
+			},
+			error: function(error)
+			{
+				reject(error);
+			}
+		})
+	});
 }
 
 function showLoadingIndicator(text)
