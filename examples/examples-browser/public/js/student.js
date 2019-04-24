@@ -198,6 +198,7 @@ async function compare()
 }
 
 var finishRecognition;
+var recognizedNames = [];
 async function updateReferenceImageResults()
 {
 	var canvas = $(".camera-canvas")[0],
@@ -225,12 +226,17 @@ async function updateReferenceImageResults()
 		boxesWithText[0]._text === "unknown")
 		return;
 
-	closeCamera();
-	if (!finishRecognition)
-	{
-		showVerificationResultModal("Hello " + boxesWithText[0]._text);
-		finishRecognition = true;
-	}
+	var name = boxesWithText[0]._text;
+	if (recognizedNames.indexOf(name) >= 0) return;
+
+	hello(name);
+	recognizedNames.push(name);
+	//closeCamera();
+	//if (!finishRecognition)
+	//{
+	//	showVerificationResultModal("Hello " + boxesWithText[0]._text);
+	//	finishRecognition = true;
+	//}
 }
 
 function showVerificationResultModal(text)
@@ -319,4 +325,27 @@ function showLoadingIndicator(text)
 function hideLoadingIndicator()
 {
 	$("#loadingindicator").hide();
+}
+
+toastr.options = {
+	"closeButton": false,
+	"debug": false,
+	"newestOnTop": false,
+	"progressBar": false,
+	"positionClass": "toast-bottom-full-width",
+	"preventDuplicates": false,
+	"onclick": null,
+	"showDuration": "300",
+	"hideDuration": "1000",
+	"timeOut": "3000",
+	"extendedTimeOut": "1000",
+	"showEasing": "swing",
+	"hideEasing": "linear",
+	"showMethod": "fadeIn",
+	"hideMethod": "fadeOut"
+}
+
+function hello(name)
+{
+	toastr.success("Hello " + name + "!");
 }
