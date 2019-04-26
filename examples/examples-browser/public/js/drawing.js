@@ -13,9 +13,10 @@ function resizeCanvasAndResults(dimensions, canvas, results)
 
 function drawDetections(dimensions, canvas, detections)
 {
-	const resizedDetections = resizeCanvasAndResults(dimensions, canvas, detections)
+	const resizedDetections = resizeCanvasAndResults(dimensions, canvas, detections);
 	if (detections[0].score >= 0.85)
 	{
+
 		if (window.screenshot != null)
 		{
 			screenshot();

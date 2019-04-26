@@ -14,7 +14,31 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.8.1/less.min.js"></script>
 	<script src="js/toastr.min.js"></script>
 	<script>
+		var os = (function()
+		{
+			var UserAgent = navigator.userAgent.toLowerCase();
+			return {
+				isIpad: /ipad/.test(UserAgent),
+				isIphone: /iphone os/.test(UserAgent),
+				isAndroid: /android/.test(UserAgent),
+				isWindowsCe: /windows ce/.test(UserAgent),
+				isWindowsMobile: /windows mobile/.test(UserAgent),
+				isWin2K: /windows nt 5.0/.test(UserAgent),
+				isXP: /windows nt 5.1/.test(UserAgent),
+				isVista: /windows nt 6.0/.test(UserAgent),
+				isWin7: /windows nt 6.1/.test(UserAgent),
+				isWin8: /windows nt 6.2/.test(UserAgent),
+				isWin81: /windows nt 6.3/.test(UserAgent),
+				isWin10: /windows nt 10.0/.test(UserAgent),
+				isMac: /mac os/.test(UserAgent)
+			};
+		}());
+
 		notOpenCamera = false;
+		recognitionOptions = {
+			distanceThreshold: 0.5,
+			delay: os.isIpad || os.isIphone || os.isAndroid || os.isWindowsMobile ? 1000 : 100
+		};
 	</script>
 </head>
 

@@ -29,7 +29,7 @@ async function onPlay()
 		drawDetections(videoEl, $(".camera-canvas")[0], [result])
 	}
 
-	setTimeout(() => onPlay(), 1000)
+	setTimeout(() => onPlay(), recognitionOptions.delay);
 }
 
 //var faceMatcher=[];
@@ -164,6 +164,8 @@ async function loadFaceMatcher()
 	{
 		faceMatcher.labeledDescriptors[i]._label = nameArray[i];
 	}
+
+	faceMatcher._distanceThreshold = recognitionOptions.distanceThreshold;
 }
 
 function updateResults() { }
