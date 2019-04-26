@@ -79,28 +79,22 @@ app.get('/getImageList', (req, res) =>
 	res.send(JSON.stringify(imgList));
 });
 
-// 通过 filename 属性定制
 var storage = multer.diskStorage({
-	destination: __dirname,
+	destination: __dirname + "/views/Images/StudentPhotos",
 	filename: function(req, file, cb)
 	{
-		// 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
 		cb(null, req.body.filename + '.png');
 	}
 });
 
-// 通过 storage 选项来对 上传行为 进行定制化
+
 var upload = multer({ storage: storage })
 
 app.post('/image', upload.single('file'), function(req, res, next)
 {
 	var file = req.file;
 
-	console.log('文件类型：%s', file.mimetype);
-	console.log('原始文件名：%s', file.originalname);
-	console.log('文件大小：%s', file.size);
-	console.log('文件保存路径：%s', file.path);
-	res.send('a');
+	res.send('success');
 });
 
 // app.get('/form', function(req, res, next){

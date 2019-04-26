@@ -5,6 +5,7 @@ $(".upload").on("click", function()
 	{
 		alert("Name is required!");
 		$('input[name=filename]').focus();
+		return;
 	}
 
 	var formData = generateFormData();
@@ -39,8 +40,8 @@ function generateFormData()
 		var base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
 		var blob = base64ToBlob(base64ImageContent, 'image/png');
 		var formData = new FormData();
-		formData.append('file', blob);
 		formData.append('filename', $('input[name=filename]').val());
+		formData.append('file', blob);
 
 		return formData;
 	}

@@ -15,13 +15,12 @@
 
 <body>
 	<div>
-		<label><input name="uploadType" type="radio" value="localimage" />Local Image</label>
+		<label><input name="uploadType" type="radio" value="localimage" checked />Local Image</label>
 		<label><input name="uploadType" type="radio" value="camera" />Camera</label>
 	</div>
 	<form class="file-form" method="post" enctype="multipart/form-data" action="/image">
 		<input type="text" name="filename" />
 		<input type="file" name="file">
-		<input type="submit" value="Submit">
 	</form>
 	<div class="booth-container">
 		<canvas id='canvasScreenshot' width=400 height=300></canvas>
