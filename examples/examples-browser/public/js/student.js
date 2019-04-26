@@ -287,10 +287,17 @@ function openSettingModal()
 
 	getUseImageList().then(function(userList)
 	{
-		userList.map(function(user)
+		if (Array.isArray(userList) && userList.length > 0)
 		{
-			$modalContainer.find(".user-container").append(createUserItem(user));
-		});
+			userList.map(function(user)
+			{
+				$modalContainer.find(".user-container").append(createUserItem(user));
+			});
+		}
+		else
+		{
+			$modalContainer.find(".user-container").append('<div class="place-holder">No registration yet.</div>');
+		}
 
 		$modalContainer.show();
 	});
