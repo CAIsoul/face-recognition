@@ -38,7 +38,7 @@ async function run()
 {
 	showLoadingIndicator("Loading face recognition Models...");
 
-	loadStudentImages();
+	await loadStudentImages();
 	// load face detection model
 	await changeFaceDetector(SSD_MOBILENETV1)
 	changeInputSize(512)
@@ -78,9 +78,9 @@ function initLoginOptions()
 	});
 }
 
-function loadStudentImages()
+async function loadStudentImages()
 {
-	$.ajax({
+	return $.ajax({
 		url: '/getImageList',
 		type: 'GET',
 		success: function(response)
@@ -106,7 +106,7 @@ function loadStudentImages()
 		{
 
 		}
-	})
+	});
 }
 
 var mediaStreamTrack;
@@ -348,4 +348,14 @@ toastr.options = {
 function hello(name)
 {
 	toastr.success("Hello " + name + "!");
+}
+
+async function reloadImageSamples()
+{
+	showLoadingIndicator("Loading image samples...");
+
+	await loadStudentImages();
+	await loadFaceMatcher();
+
+	hideLoadingIndicator();
 }
