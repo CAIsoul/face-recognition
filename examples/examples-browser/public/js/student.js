@@ -273,13 +273,14 @@ function openSettingModal()
 		createUserItem = function(obj)
 		{
 			return `
-				<div class="user-item">
+				<div class="user-item" id="user-item-${obj.name}">
 					<img class="user-pic" src="${obj.path}">
 					<span class="user-name">${obj.name}</span>
+					<div class="delete-btn" onClick="deleteUserPicture('${obj.name}')"></div>
 				</div>`;
 		};
 
-	$modalContainer.find(".modal-title").text("Manage Users");
+	$modalContainer.find(".modal-title").text("Manage Registration.");
 	$modalContainer.find(".modal-body").html(`
 		<div class="user-container"><div>
 	`);
@@ -292,6 +293,26 @@ function openSettingModal()
 		});
 
 		$modalContainer.show();
+	});
+}
+
+function deleteUserPicture(user)
+{
+	$.ajax({
+		url: `/deleteFileByName?filename=${user}`,
+		type: 'DELETE',
+		success: (res) =>
+		{
+			if (res)
+			{
+				toastr.success(`User ${user} has been registered.`);
+				$(`#user-item-${user}`).remove();
+			}
+		},
+		error: function(err)
+		{
+			toastr.fail(`Operation failed: ${err}.`);
+		}
 	});
 }
 

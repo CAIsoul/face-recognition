@@ -26,7 +26,7 @@ fs.stat(__dirname + '/public/certificates/privatekey.pem', function(err, stat)
 		var privateKey = fs.readFileSync(__dirname + '/public/certificates/privatekey.pem').toString(),
 			certificate = fs.readFileSync(__dirname + '/public/certificates/certificate.pem').toString();
 
-		credentials = {key: privateKey, cert: certificate};
+		credentials = { key: privateKey, cert: certificate };
 
 		startHttps();
 	}
@@ -77,6 +77,20 @@ app.get('/getImageList', (req, res) =>
 {
 	let imgList = getImageList();
 	res.send(JSON.stringify(imgList));
+});
+
+app.delete('/deleteFileByName', (req, res) =>
+{
+	const filename = req.query.filename;
+	if (filename)
+	{
+		const filePath = path.join(viewsDir, `images/studentphotos/${filename}.png`);
+		console.log(filePath);
+		fs.unlink(filePath, () =>
+		{
+			res.send(true);
+		});
+	}
 });
 
 var storage = multer.diskStorage({
