@@ -85,7 +85,6 @@ app.delete('/deleteFileByName', (req, res) =>
 	if (filename)
 	{
 		const filePath = path.join(viewsDir, `images/studentphotos/${filename}.png`);
-		console.log(filePath);
 		fs.unlink(filePath, () =>
 		{
 			res.send(true);

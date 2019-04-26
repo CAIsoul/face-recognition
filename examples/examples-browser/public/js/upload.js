@@ -22,11 +22,11 @@ $(".upload").on("click", function()
 		contentType: false,
 		success: function(data)
 		{
-			console.log(data);
+			toastr.success("Upload successfully!");
 		},
 		error: function(e)
 		{
-			console.log(e);
+			toastr.error("Upload failed!");
 		}
 	});
 });
