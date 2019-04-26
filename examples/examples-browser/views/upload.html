@@ -7,37 +7,56 @@
 	<script src="js/commons.js"></script>
 	<script src="js/drawing.js"></script>
 	<script src="js/faceDetectionControls.js"></script>
+	<link rel="stylesheet" href="bootstrap.min.css">
 	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="toastr.min.css">
 	<link rel="stylesheet/less" type="text/css" href="student_styles.less">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.8.1/less.min.js"></script>
+	<script src="js/toastr.min.js"></script>
 </head>
 
 <body>
-	<div>
-		<label><input name="uploadType" type="radio" value="localimage" checked />Local Image</label>
-		<label><input name="uploadType" type="radio" value="camera" />Camera</label>
-	</div>
-	<form class="file-form" method="post" enctype="multipart/form-data" action="/image">
-		<input type="text" name="filename" />
-		<input type="file" name="file">
-	</form>
-	<div class="booth-container">
-		<canvas id='canvasScreenshot' width=400 height=300></canvas>
-		<img id='imgScreenshot'>
-	</div>
-	<div class="upload-container">
-		<div class="video-container">
-			<video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
-			<canvas class="camera-canvas"></canvas>
+	<div class="login-layer">
+		<div class="login-header">
+			<div class="franchise-icon"></div>
+		</div>
+		<div class="login-content vertical">
+			<div class="upload-options">
+				<label><input name="uploadType" type="radio" value="localimage" checked />Local Image</label>
+				<label><input name="uploadType" type="radio" value="camera" />Camera</label>
+			</div>
+			<div class="upload-content">
+				<div class="local-image-container">
+					<form class="file-form" method="post" enctype="multipart/form-data" action="/image">
+						<input type="text" name="filename" style="display:none" />
+						<input type="file" name="file" onchange="showSelectedImage()">
+					</form>
+					<img class="image-selected" style="width:500px;height:400px;">
+				</div>
+				<div class="camera-image-container" style="display:none">
+					<div class="upload-container">
+						<video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
+						<canvas class="camera-canvas" style="display:none"></canvas>
+						<img id='imgScreenshot' style="display:none;">
+					</div>
+					<div class="booth-container">
+						<canvas id='canvasScreenshot' width=400 height=300 style="display:none"></canvas>
+					</div>
+					<button class="open-camera" style="display:none">Open Camera</button>
+				</div>
+				<div class="name-container">
+					<label>Person Name:</label>
+					<input type="text" name="name" />
+				</div>
+				<button class="upload">Upload</button>
+			</div>
 		</div>
 	</div>
-	<button class="open-camera">Open Camera</button>
-	<button class="upload">Upload</button>
 </body>
 
-<script src="js/student.js"></script>
 <script src="js/upload.js"></script>
+<script src="js/student.js"></script>
 </body>
 
 </html>

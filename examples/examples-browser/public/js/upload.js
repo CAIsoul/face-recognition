@@ -1,12 +1,16 @@
+notOpenCamera = true;
+
 $(".upload").on("click", function()
 {
-	var fileName = $('input[name=filename]').val();
-	if (fileName.trim().length === 0)
+	var personName = $(".name-container input").val();
+	if (personName.trim().length === 0)
 	{
 		alert("Name is required!");
-		$('input[name=filename]').focus();
+		$(".name-container input").focus();
 		return;
 	}
+
+	$('input[name=filename]').val(personName);
 
 	var formData = generateFormData();
 
@@ -25,6 +29,23 @@ $(".upload").on("click", function()
 			console.log(e);
 		}
 	});
+});
+
+$(".upload-options input").on("change", function(e)
+{
+	var showCameraContainer = e.target.value === "camera";
+	if (showCameraContainer)
+	{
+		$(".local-image-container").hide();
+		$(".camera-image-container").show();
+		openCamera();
+	}
+	else
+	{
+		$(".local-image-container").show();
+		$(".camera-image-container").hide();
+		closeCamera();
+	}
 });
 
 function generateFormData()
@@ -70,4 +91,22 @@ function base64ToBlob(base64, mime)
 	}
 
 	return new Blob(byteArrays, { type: mime });
+}
+
+function showSelectedImage()
+{
+	/// get select files.
+	var selectFiles = $(".local-image-container input[type=file]")[0].files;
+
+	for (var file of selectFiles)
+	{
+		console.log(file.webkitRelativePath);
+		/// read file content.
+		var reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = function()
+		{
+			$(".image-selected")[0].src = this.result;
+		}
+	}
 }

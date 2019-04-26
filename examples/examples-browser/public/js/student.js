@@ -48,6 +48,10 @@ async function run()
 
 	await loadFaceMatcher();
 
+	if (!notOpenCamera)
+	{
+		openCamera();
+	}
 	$('.open-camera').on('click', function() { openCamera(); });
 	initLoginOptions();
 
@@ -179,9 +183,10 @@ function screenshot()
 	//绘制canvas图形
 	canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
 
-
 	//把canvas图像转为img图片
 	img.src = canvas.toDataURL("image/png");
+
+	$(img).show();
 }
 
 var queryDescriptions;
